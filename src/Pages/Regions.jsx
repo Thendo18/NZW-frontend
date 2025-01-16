@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../Components/Table";
+import TextInput from "../Components/TextInput";
+import Navbar from "../Components/Navbar";
 
 const Regions = () => {
   const [regions, setRegions] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const fetchRegions = async () => {
       try {
-        const response = await axios.get("https://localhost:7135/api/Regions"); // Update with your actual API URL
+        const response = await axios.get("https://localhost:7135/api/Regions"); 
         setRegions(response.data);
       } catch (error) {
         console.error("There was an error fetching the regions!", error);
@@ -18,10 +21,14 @@ const Regions = () => {
     fetchRegions();
   }, []);
 
-  const headers = ["ID", "Name", "Image"];
+  const headers = ["Name", "Image"];
 
-  const tableData = regions.map((region) => ({
-    id: region.id,
+  const filteredRegions = regions.filter((region) =>
+    region.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  
+
+  const tableData = filteredRegions.map((region) => ({
     name: region.name,
     image: (
       region.regionImageUrl ? (
@@ -37,14 +44,19 @@ const Regions = () => {
   }));
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Regions</h1>
+    <><Navbar /><div>
+            <TextInput
+        placeholder="Search..."
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+      />
+< br/>
       {regions.length > 0 ? (
         <Table headers={headers} data={tableData} />
       ) : (
         <p>Loading regions...</p>
       )}
-    </div>
+    </div></>
   );
 };
 

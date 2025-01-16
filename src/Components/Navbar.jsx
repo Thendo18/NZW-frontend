@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const Navbar = ({ onMenuClick }) => {
   return (
     <div className="navbar bg-base-100 shadow-lg px-4">
-      <a className="btn btn-ghost normal-case text-xl">
+      <a href="/Home" className="btn btn-ghost normal-case text-xl">
         NZWalks
       </a>
       <div className="ml-auto flex space-x-4">
@@ -11,7 +11,7 @@ const Navbar = ({ onMenuClick }) => {
         <a href="/regions">Regions</a>
         </button>
         <button className="btn btn-ghost" onClick={() => onMenuClick('privacy')}>
-          Privacy
+          Admin
         </button>
       </div>
     </div>
